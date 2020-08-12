@@ -105,6 +105,16 @@ public abstract class AbstractGoCodegen extends DefaultCodegenConfig {
                 .defaultValue(Boolean.TRUE.toString()));
     }
 
+    @Override
+    public CodegenProperty fromProperty (String name, Schema propertySchema) {
+        String newName;
+        if (propertySchema.getExtensions() != null && propertySchema.getExtensions().containsKey("x-go-name"))
+            newName = (String) propertySchema.getExtensions().get("x-go-name");
+        else
+            newName = name;
+        return super.fromProperty(newName, propertySchema);
+    }
+
     /**
      * Escapes a reserved word as defined in the `reservedWords` array. Handle escaping
      * those terms here.  This logic is only called if a variable matches the reserved words
